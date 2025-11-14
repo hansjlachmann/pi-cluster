@@ -1,7 +1,7 @@
 # pi-cluster
 The Pi cluster for my Kubernetes Homelab
 
-Using the Repository structure in the Flux guides:
+- Using the Repository structure in the Flux guides:
 https://fluxcd.io/flux/guides/repository-structure/
 ```
 ├── apps
