@@ -16,3 +16,4 @@ https://fluxcd.io/flux/guides/repository-structure/
     ├── production
     └── staging
 ```
+All changes (deployments) to the kubernetes cluster will be manintained in the yaml files in the /apps directory
