@@ -25,7 +25,7 @@ https://fluxcd.io/flux/guides/repository-structure/
 All changes (deployments) to the kubernetes cluster will be manintained in the yaml files in the /apps directory
 
 RaspberryPi 5  and 16GB Ram with external SDD 
-![[pi.jpeg]]
+![RaspberryPi](pi.jpeg)
 
 
 
