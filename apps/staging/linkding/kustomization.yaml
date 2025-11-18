@@ -4,5 +4,7 @@ kind: Kustomization
 namespace: linkding
 resources:
   - ../../base/linkding/
- # - cloudflare.yaml
+  - cloudflare.yaml
+  - cloudflare-secret.yaml
+  - linkding-container-evt-secret.yaml 
 #  - test-secret.yaml
