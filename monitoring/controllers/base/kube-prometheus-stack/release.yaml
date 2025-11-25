@@ -31,3 +31,4 @@ spec:
   values:
     grafana:
       adminPassword: mischa
+      ingress:
