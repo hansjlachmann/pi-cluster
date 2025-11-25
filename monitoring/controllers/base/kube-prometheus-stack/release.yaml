@@ -32,3 +32,13 @@ spec:
     grafana:
       adminPassword: mischa
       ingress:
+        enabled: true
+        ingressClassName: traefik
+
+        hosts:
+          - grafana.hansjlachmann.net
+
+        tls:
+          - secretName: grafana-tls-secret
+            hosts:
+              - grs.mischavandenburg.net
