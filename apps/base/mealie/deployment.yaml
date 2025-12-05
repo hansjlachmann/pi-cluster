@@ -16,12 +16,12 @@ spec:
         - name: mealie
           image: ghcr.io/mealie-recipes/mealie:v1.2.0
           ports:
-            - containerPort: 9090
+            - containerPort: 9000
           securityContext:
             allowPrivilegeEscalation: false
-          envFrom:
-            - secretRef:
-                name: mealie-container-env
+#          envFrom:
+#            - secretRef:
+#                name: mealie-container-env
           volumeMounts:
             - name: mealie-data
               mountPath: /etc/mealie/data
