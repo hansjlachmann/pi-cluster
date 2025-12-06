@@ -1,0 +1,25 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-cloudflare
+spec:
+  acme:
+    # Your email for Let's Encrypt expiration notices
+    email: hansjlachmann@hotmail.com
+
+    # Production Let's Encrypt server
+    server: https://acme-v02.api.letsencrypt.org/directory
+
+    # Where cert-manager stores your private ACME account key
+    privateKeySecretRef:
+      name: letsencrypt-cloudflare-account-key
+
+    # Solvers define how DNS validation is done
+    solvers:
+      - dns01:
+          cloudflare:
+            # This references your SOPS-encrypted secret
+            apiTokenSecretRef:
+              name: cloudflare-api-token
+              key: api-token
+
