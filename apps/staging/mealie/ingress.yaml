@@ -3,16 +3,22 @@ kind: Ingress
 metadata:
   name: mealie
   namespace: mealie
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-cloudflare
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
-  ingressClassName: traefik
+  tls:
+    - hosts:
+        - mealie.hansjlachmann.net
+      secretName: mealie-tls
   rules:
-    - host: mealie.local
+    - host: mealie.hansjlachmann.net
       http:
         paths:
-          - backend:
+          - path: /
+            pathType: Prefix
+            backend:
               service:
                 name: mealie
                 port:
                   number: 9000
-            path: /
-            pathType: Prefix
