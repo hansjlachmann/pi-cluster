@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflared-config
+  namespace: cloudflared
+data:
+  config.yaml: |
+    tunnel: fca49a07-9ff3-40f4-b71d-b301b70e5c8f
+    credentials-file: /etc/cloudflared/credentials/credentials.json
+
+    ingress:
+      - hostname: linkding.hansjlachmann.net
+        service: http://linkding.linkding.svc.cluster.local:9090
+
+      - hostname: mealie.hansjlachmann.net
+        service: http://mealie.mealie.svc.cluster.local:9000
+
+      # Default behavior
+      - service: http_status:404
