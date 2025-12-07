@@ -18,8 +18,9 @@ spec:
         image: cloudflare/cloudflared:latest
         args:
         - tunnel
-
-        # Points cloudflared to the config file, which configures what
+        - run
+        - fca49a07-9ff3-40f4-b71d-b301b70e5c8f
+        # Points icloudflared to the config file, which configures what
         # cloudflared will actually do. This file is created by a ConfigMap
         # below.
         - --config
