@@ -18,8 +18,6 @@ spec:
         image: cloudflare/cloudflared:latest
         args:
         - tunnel
-        - --config
-        - /etc/cloudflared/config/config.yaml
         - run
         - fca49a07-9ff3-40f4-b71d-b301b70e5c8f
         livenessProbe:
