@@ -3,10 +3,17 @@ kind: Ingress
 metadata:
   name: linkding
   namespace: linkding
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-cloudflare
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - linkding.hansjlachmann.net
+      secretName: linkding-tls
   rules:
-    - host: linkdingpi.hansjlachmann.net
+    - host: linkding.hansjlachmann.net
       http:
         paths:
           - backend:
