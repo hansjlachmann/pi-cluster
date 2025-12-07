@@ -18,10 +18,10 @@ spec:
         image: cloudflare/cloudflared:latest
         args:
         - tunnel
-        - run
-        - fca49a07-9ff3-40f4-b71d-b301b70e5c8f
         - --config
         - /etc/cloudflared/config/config.yaml
+        - run
+        - fca49a07-9ff3-40f4-b71d-b301b70e5c8f
         livenessProbe:
           httpGet:
             # Cloudflared has a /ready endpoint which returns 200 if and only if
