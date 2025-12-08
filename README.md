@@ -4,7 +4,8 @@ The RaspberryPi cluster for my Kubernetes Homelab running with k3s
 The Kubernetes cluster is always manintained in the .yaml files in this repository, Flux service running on the RaspberryPi is automatically pulling changes from this repository deploying it to the Kubernetes cluster. 
 
 Applications hosted: 
-- Linkding (bookmarks manager)
+- Linkding (bookmarks manager)  https://linkding.hansjlachmann.net/
+- Mealie https://mealie.hansjlachmann.net/
 - Cloudflare tunnel
 - Storage containers
 
