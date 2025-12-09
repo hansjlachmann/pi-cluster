@@ -5,4 +5,4 @@ metadata:
   namespace: seafile
 spec:
   interval: 1h
-  url: https://charts.jetstack.io
+  url: https://300481.github.io/charts/
