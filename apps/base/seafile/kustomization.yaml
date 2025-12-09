@@ -3,7 +3,8 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - release.yaml
-  - repository.yaml
+  - repository-seafile.yaml
+  - repository-bitnami.yaml
   - storage.yaml
   - mariadb-secret.yaml
   - mariadb-storage.yaml
