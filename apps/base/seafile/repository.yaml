@@ -1,0 +1,8 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: seafile-server
+  namespace: seafile
+spec:
+  interval: 1h
+  url: https://charts.jetstack.io

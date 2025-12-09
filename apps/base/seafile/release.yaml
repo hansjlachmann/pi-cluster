@@ -1,0 +1,32 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: seafile
+  namespace: seafile
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: seafile
+      version: "0.12.1"   # Use latest stable
+      sourceRef:
+        kind: HelmRepository
+        name: seafile-server
+        namespace: seafile
+  install:
+    crds: Create
+  upgrade:
+    crds: CreateReplace
+  values:
+    seafile:
+      persistence:
+        existingClaim: seafile-data
+        storageClassName: ""
+      env:
+        SEAFILE_SERVER_HOSTNAME: "seafile.hansjlachmann.net"
+        SEAFILE_SERVER_PROTOCOL: "https"
+    service:
+      type: ClusterIP
+      port: 80
+    ingress:
+      enabled: false

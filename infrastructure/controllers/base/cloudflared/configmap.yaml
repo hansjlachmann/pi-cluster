@@ -20,5 +20,8 @@ data:
       - hostname: grafana.hansjlachmann.net
         service: http://kube-prometheus-stack-grafana.monitoring.svc.cluster.local:80
 
+      - hostname: seafile.hansjlachmann.net
+        service: http://traefik.kube-system.svc.cluster.local:80
+
       # Default behavior
       - service: http_status:404
