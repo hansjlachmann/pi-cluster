@@ -30,37 +30,3 @@ spec:
       port: 80
     ingress:
       enabled: false
----
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: mariadb-seafile
-  namespace: seafile
-spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: mariadb
-      version: "18.x.x"
-      sourceRef:
-        kind: HelmRepository
-        name: bitnami
-        namespace: seafile
-
-  valuesFrom:
-    - kind: Secret
-      name: mariadb-seafile-secret
-
-  values:
-    auth:
-      existingSecret: mariadb-seafile-secret
-      database: "seafile_db"
-      username: "seafile"
-
-    primary:
-      persistence:
-        enabled: true
-        existingClaim: mariadb-seafile-data
-        storageClass: ""
-
-

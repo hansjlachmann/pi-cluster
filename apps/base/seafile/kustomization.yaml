@@ -5,6 +5,8 @@ resources:
   - release.yaml
   - repository-seafile.yaml
   - repository-bitnami.yaml
+  - release-mariadb.yaml
+  - release-seafile.yaml
   - storage.yaml
   - mariadb-secret.yaml
   - mariadb-storage.yaml
