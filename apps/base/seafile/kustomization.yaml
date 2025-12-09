@@ -5,3 +5,5 @@ resources:
   - release.yaml
   - repository.yaml
   - storage.yaml
+  - mariadb-secret.yaml
+  - mariadb-storage.yaml
