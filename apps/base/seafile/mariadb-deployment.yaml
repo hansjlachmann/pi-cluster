@@ -22,7 +22,7 @@ spec:
               containerPort: 3306
           envFrom:
             - secretRef:
-              name: mariadb-seafile-secret
+                name: mariadb-seafile-secret
           volumeMounts:
             - name: data
               mountPath: /var/lib/mysql
