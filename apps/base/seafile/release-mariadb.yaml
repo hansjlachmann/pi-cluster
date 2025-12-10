@@ -13,6 +13,12 @@ spec:
         kind: HelmRepository
         name: bitnami
         namespace: seafile
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
 
   valuesFrom:
     - kind: Secret
