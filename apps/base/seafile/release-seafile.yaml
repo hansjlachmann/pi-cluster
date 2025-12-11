@@ -19,7 +19,14 @@ spec:
     crds: CreateReplace
 
   values:
+
     nginx-ingress:
+      enabled: false
+    
+    nginxIngress:
+      enabled: false
+    
+    ingress:
       enabled: false
 
     seafile:
