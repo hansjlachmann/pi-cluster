@@ -27,21 +27,13 @@ spec:
       env:
         SEAFILE_SERVER_HOSTNAME: "seafile.hansjlachmann.net"
         SEAFILE_SERVER_PROTOCOL: "https"
-    db:
-      type: mysql
-      host: mariadb-seafile.seafile.svc.cluster.local
-      port: 3306
-      db_name: seafile_db
-      username: seafile
-      password: "password"
-      root_password: "password"
-      
-      #mysql:
-      #  host: mariadb-seafile.seafile.svc.cluster.local
-      #  user: seafile
-      #  password: "password"
-      #  database: seafile_db
 
+      database:
+        hostname: mariadb-seafile.seafile.svc.cluster.local
+        rootPasswordSecret:
+          name: mariadb-seafile-secret
+          key: MARIADB_ROOT_PASSWORD
+    
     service:
       type: ClusterIP
       port: 80
