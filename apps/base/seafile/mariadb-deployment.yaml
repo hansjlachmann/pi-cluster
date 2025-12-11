@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: mariadb
-          image: mariadb:11
+          image: mariadb:12
           imagePullPolicy: IfNotPresent
           ports:
             - name: mysql
