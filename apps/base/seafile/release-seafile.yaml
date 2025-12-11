@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: seafile
-      version: "0.12.1"   # Use latest stable
+      version: "0.12.1"
       sourceRef:
         kind: HelmRepository
         name: seafile-server
@@ -17,23 +17,26 @@ spec:
     crds: Create
   upgrade:
     crds: CreateReplace
+
   values:
     seafile:
       persistence:
         existingClaim: seafile-data
         storageClassName: ""
+
       env:
         SEAFILE_SERVER_HOSTNAME: "seafile.hansjlachmann.net"
         SEAFILE_SERVER_PROTOCOL: "https"
-      database:
-        type: mysql
+
+      mysql:
         host: mariadb-seafile.seafile.svc.cluster.local
-        db_name: seafile_db
-        username: seafile
+        user: seafile
         password: "password"
-        root_password: "password"
+        database: seafile_db
+
     service:
       type: ClusterIP
       port: 80
+
     ingress:
       enabled: false
