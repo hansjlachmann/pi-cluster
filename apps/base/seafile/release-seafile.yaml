@@ -37,6 +37,10 @@ spec:
       env:
         SEAFILE_SERVER_HOSTNAME: "seafile.hansjlachmann.net"
         SEAFILE_SERVER_PROTOCOL: "https"
+        SERVICE_URL: "https://seafile.hansjlachmann.net"
+        FILE_SERVER_ROOT: "https://seafile.hansjlachmann.net/seafhttp"
+        CSRF_COOKIE_SECURE: "true"
+        SESSION_COOKIE_SECURE: "true"
 
       database:
         hostname: mariadb-seafile.seafile.svc.cluster.local
