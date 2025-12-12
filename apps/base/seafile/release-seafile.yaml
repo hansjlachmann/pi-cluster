@@ -19,7 +19,6 @@ spec:
     crds: CreateReplace
 
   values:
-
     nginx-ingress:
       enabled: false
     
@@ -37,11 +36,6 @@ spec:
       env:
         SEAFILE_SERVER_HOSTNAME: "seafile.hansjlachmann.net"
         SEAFILE_SERVER_PROTOCOL: "https"
-        SERVICE_URL: "https://seafile.hansjlachmann.net"
-        FILE_SERVER_ROOT: "https://seafile.hansjlachmann.net/seafhttp"
-        CSRF_TRUSTED_ORIGINS: "https://seafile.hansjlachmann.net"  # Add this
-        CSRF_COOKIE_SECURE: "true"
-        SESSION_COOKIE_SECURE: "true"
 
       database:
         hostname: mariadb-seafile.seafile.svc.cluster.local
@@ -52,3 +46,28 @@ spec:
     service:
       type: ClusterIP
       port: 80
+
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: StatefulSet
+              name: seafile
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/lifecycle
+                value:
+                  postStart:
+                    exec:
+                      command:
+                        - /bin/sh
+                        - -c
+                        - |
+                          sleep 30
+                          if ! grep -q "CSRF_TRUSTED_ORIGINS" /opt/seafile/conf/seahub_settings.py 2>/dev/null; then
+                            echo "" >> /opt/seafile/conf/seahub_settings.py
+                            echo "# Custom configuration" >> /opt/seafile/conf/seahub_settings.py
+                            echo "SERVICE_URL = 'https://seafile.hansjlachmann.net'" >> /opt/seafile/conf/seahub_settings.py
+                            echo "FILE_SERVER_ROOT = 'https://seafile.hansjlachmann.net/seafhttp'" >> /opt/seafile/conf/seahub_settings.py
+                            echo "CSRF_TRUSTED_ORIGINS = ['https://seafile.hansjlachmann.net']" >> /opt/seafile/conf/seahub_settings.py
+                          fi

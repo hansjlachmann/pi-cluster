@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: seahub-settings
+  namespace: seafile
+data:
+  seahub_settings_custom.py: |
+    # Custom Seafile configuration
+    SERVICE_URL = "https://seafile.hansjlachmann.net"
+    FILE_SERVER_ROOT = "https://seafile.hansjlachmann.net/seafhttp"
+    CSRF_TRUSTED_ORIGINS = ['https://seafile.hansjlachmann.net']
