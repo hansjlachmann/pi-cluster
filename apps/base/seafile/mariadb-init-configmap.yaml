@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mariadb-init-scripts
+  namespace: seafile
+data:
+  init.sql: |
+    -- Grant permissions to seafile user from any host
+    GRANT ALL PRIVILEGES ON seafile_db.* TO 'seafile'@'%' IDENTIFIED BY 'password';
+    FLUSH PRIVILEGES;
