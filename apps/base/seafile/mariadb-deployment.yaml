@@ -32,3 +32,6 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: mariadb-seafile-data
+        - name: init-scripts
+          configMap:
+            name: mariadb-init-scripts
