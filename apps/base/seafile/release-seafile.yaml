@@ -39,6 +39,7 @@ spec:
         SEAFILE_SERVER_PROTOCOL: "https"
         SERVICE_URL: "https://seafile.hansjlachmann.net"
         FILE_SERVER_ROOT: "https://seafile.hansjlachmann.net/seafhttp"
+        CSRF_TRUSTED_ORIGINS: "https://seafile.hansjlachmann.net"  # Add this
         CSRF_COOKIE_SECURE: "true"
         SESSION_COOKIE_SECURE: "true"
 
