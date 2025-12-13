@@ -5,4 +5,4 @@ resources:
   # - storage.yaml
   - namespace.yaml
   - service.yaml
-  - configmap.yaml
+  # - configmap.yaml
