@@ -3,7 +3,10 @@ kind: ConfigMap
 metadata:
   name: audiobookshelf-config
   namespace: audiobookshelf
-spec:
-  containers:
-      ports:
-        - containerPort: 3005
+data:
+  environment:
+    METADATA_PATH=/var/lib/audiobookshelf/metadata
+    CONFIG_PATH=/var/lib/audiobookshelf/config
+    PORT=3005
+    HOST=127.0.0.1
+

@@ -19,8 +19,8 @@ spec:
             - containerPort: 3005
           securityContext:
             allowPrivilegeEscalation: false
-          # confMap:
-          #   name: audiobookshelf-config
+          confMap:
+            name: audiobookshelf-config
       #     volumeMounts:
       #       - name: mealie-data
       #         mountPath: /etc/audiobookshelf/data
