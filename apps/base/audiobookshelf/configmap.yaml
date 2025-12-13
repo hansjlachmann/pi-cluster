@@ -4,9 +4,8 @@ metadata:
   name: audiobookshelf-config
   namespace: audiobookshelf
 data:
-  environment:
-    METADATA_PATH=/var/lib/audiobookshelf/metadata
-    CONFIG_PATH=/var/lib/audiobookshelf/config
-    PORT=3005
-    HOST=127.0.0.1
+  METADATA_PATH=/metadata
+  CONFIG_PATH=/config
+  PORT=3005
+  HOST=0.0.0.0
 

@@ -17,14 +17,24 @@ spec:
           image: ghcr.io/advplyr/audiobookshelf:latest
           ports:
             - containerPort: 3005
+              name: http
           securityContext:
             allowPrivilegeEscalation: false
-          confMap:
-            name: audiobookshelf-config
-      #     volumeMounts:
-      #       - name: mealie-data
-      #         mountPath: /etc/audiobookshelf/data
-      # volumes:
-      #   - name: audiobookshelf-data!!
-      #     persistentVolumeClaim:
-      #       claimName: audiobookshelf-data-pvc
+          envFrom:
+            confMapRef:
+              name: audiobookshelf-config
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: metadata
+              mountPath: /metadata
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: audiobookshelf-config-pvc
+        - name: metadata
+          persistentVolumeClaim:
+            claimName: audiobookshelf-metadata-pvc
+
+
+
