@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: audiobookshelf-config
+  namespace: audiobookshelf
+spec:
+  containers:
+      ports:
+        - containerPort: 3005
