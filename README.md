@@ -7,6 +7,7 @@ Applications hosted:
 - Linkding (bookmarks manager)  https://linkding.hansjlachmann.net/
 - Mealie https://mealie.hansjlachmann.net/
 - Seafile personal file storage (replaces Google Drive, Dropbox etc.) - this is a very good alternative if you have a Linux workstation because Google Drive does not offer Linux sync clients. See official seafile page for details: https://www.seafile.com/en/download/
+- Audiobookshelf
 - Cloudflare tunnel
 - Storage containers
 

@@ -26,6 +26,6 @@ spec:
       #       - name: mealie-data
       #         mountPath: /etc/audiobookshelf/data
       # volumes:
-      #   - name: audiobookshelf-data
+      #   - name: audiobookshelf-data!!
       #     persistentVolumeClaim:
       #       claimName: audiobookshelf-data-pvc
