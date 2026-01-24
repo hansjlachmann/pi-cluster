@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openerp-postgres
+  namespace: openerp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openerp-postgres
+  template:
+    metadata:
+      labels:
+        app: openerp-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "openerp"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: openerp-secret
+                  key: db-password
+            - name: POSTGRES_DB
+              value: "openerp"
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+              subPath: data
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: openerp-postgres-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openerp-backend
+  namespace: openerp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openerp-backend
+  template:
+    metadata:
+      labels:
+        app: openerp-backend
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/hansjlachmann/openerp/backend:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
+            - name: DB_HOST
+              value: "openerp-postgres"
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              value: "openerp"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: openerp-secret
+                  key: db-password
+            - name: DB_NAME
+              value: "openerp"
+            - name: COMPANY_NAME
+              value: "cronus"
+          securityContext:
+            allowPrivilegeEscalation: false
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openerp-frontend
+  namespace: openerp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openerp-frontend
+  template:
+    metadata:
+      labels:
+        app: openerp-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: ghcr.io/hansjlachmann/openerp/frontend:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: ORIGIN
+              value: "https://openerp.hansjlachmann.net"
+            - name: API_URL
+              value: "http://openerp-backend:8080"
+          securityContext:
+            allowPrivilegeEscalation: false

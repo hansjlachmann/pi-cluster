@@ -27,5 +27,8 @@ data:
       - hostname: audiobookshelf.hansjlachmann.net
         service: http://audiobookshelf.audiobookshelf.svc.cluster.local:3005
 
-      # Default behavior
+      - hostname: openerp.hansjlachmann.net
+        service: http://openerp-frontend.openerp.svc.cluster.local:3000
+
+    # Default behavior
       - service: http_status:404
