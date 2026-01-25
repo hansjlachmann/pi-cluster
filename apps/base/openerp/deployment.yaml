@@ -105,7 +105,7 @@ spec:
               value: "3000"
             - name: ORIGIN
               value: "https://openerp.hansjlachmann.net"
-            - name: API_URL
+            - name: BACKEND_URL
               value: "http://openerp-backend:8080"
           securityContext:
             allowPrivilegeEscalation: false
