@@ -27,8 +27,8 @@ data:
       - hostname: audiobookshelf.hansjlachmann.net
         service: http://audiobookshelf.audiobookshelf.svc.cluster.local:3005
 
-      # - hostname: openerp.hansjlachmann.net
-      #   service: http://openerp-frontend.openerp.svc.cluster.local:3000
+      - hostname: openerp.hansjlachmann.net
+        service: http://openerp-frontend.openerp.svc.cluster.local:3000
       
       - hostname: ssh.hansjlachmann.net
         service: ssh://localhost:22
