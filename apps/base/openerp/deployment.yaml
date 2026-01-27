@@ -97,7 +97,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ghcr.io/hansjlachmann/openerp/frontend:0.1.10
+          image: ghcr.io/hansjlachmann/openerp/frontend:0.1.11
           ports:
             - containerPort: 3000
           env:
