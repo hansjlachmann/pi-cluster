@@ -1,0 +1,18 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1                                                                                     
+kind: Kustomization                                                                                                            
+metadata:                                                                                                                      
+  name: apps-production                                                                                                        
+  namespace: flux-system                                                                                                       
+spec:                                                                                                                          
+  retryInterval: 1m                                                                                                            
+  interval: 1m0s                                                                                                               
+  timeout: 5m                                                                                                                  
+  sourceRef:                                                                                                                   
+    kind: GitRepository                                                                                                        
+    name: flux-system                                                                                                          
+  path: ./apps/production                                                                                                      
+  prune: true                                                                                                                  
+  decryption:                                                                                                                  
+    provider: sops                                                                                                             
+    secretRef:                                                                                                                 
+      name: sops-age 
