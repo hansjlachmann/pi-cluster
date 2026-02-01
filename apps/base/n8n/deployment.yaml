@@ -20,7 +20,7 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
       containers:
-      - image: docker.n8n.io/n8nio/n8n:1.75.2
+      - image: docker.n8n.io/n8nio/n8n:1.123.18
         name: n8n
         ports:
           - containerPort: 5678
