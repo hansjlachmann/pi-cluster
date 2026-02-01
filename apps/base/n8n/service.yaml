@@ -8,4 +8,4 @@ spec:
     - port: 5678
   selector:
     app: n8n
-  type: LoadBalancer
+  type: ClusterIP

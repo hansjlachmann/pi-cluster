@@ -10,4 +10,7 @@ data:
   N8N_PROTOCOL: "http"
   GENERIC_TIMEZONE: "Europe/Amsterdam"
   TZ: "Europe/Amsterdam"
-  NODES_EXCLUDE: "[]"
+  NODES_EXCLUDE: "[]"  
+  N8N_HOST: "n8n.hansjlachmann.net"                                                                              
+  WEBHOOK_URL: "https://n8n.hansjlachmann.net"                                                                   
+                                                
