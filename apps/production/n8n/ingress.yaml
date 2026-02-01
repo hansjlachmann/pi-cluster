@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: n8n
+  namespace: n8n
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-cloudflare
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - n8n.hansjlachmann.net
+      secretName: n8n-tls
+  rules:
+    - host: n8n.hansjlachmann.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: n8n
+                port: 
+                  number: 5678
+            path: /
+            pathType: Prefix

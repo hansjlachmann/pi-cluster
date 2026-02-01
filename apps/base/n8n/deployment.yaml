@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: 'n8n'
+  name: 'n8n'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: 'n8n'
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: 'n8n'
+    spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsGroup: 1000
+      containers:
+      - image: docker.n8n.io/n8nio/n8n:latest
+        name: n8n
+        ports:
+          - containerPort: 5678
+        envFrom:
+          - configMapRef:
+              name: n8n-config
+        volumeMounts:
+          - name: n8n-data
+            mountPath: /home/node
+      volumes:
+        - name: n8n-data
+          persistentVolumeClaim:
+            claimName: n8n-data-pvc
+
+
+
