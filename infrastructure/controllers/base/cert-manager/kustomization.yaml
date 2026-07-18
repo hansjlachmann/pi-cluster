@@ -5,4 +5,3 @@ resources:
   - repository.yaml
   - release.yaml
   - cloudflare-api-token3.yaml
-  - cluster-issuer-letsencrypt.yaml

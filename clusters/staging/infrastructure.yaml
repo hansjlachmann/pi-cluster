@@ -14,5 +14,22 @@ spec:
   prune: true
   decryption:
     provider: sops
-    secretRef: 
+    secretRef:
       name: sops-age
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infrastructure-configs
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infrastructure-controllers
+  retryInterval: 1m
+  interval: 1m0s
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/configs/staging
+  prune: true
