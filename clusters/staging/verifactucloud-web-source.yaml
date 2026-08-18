@@ -1,0 +1,12 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: verifactucloud-web
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: ssh://git@github.com/erpdevelopmentno/verifactucloud-web
+  ref:
+    branch: main
+  secretRef:
+    name: verifactucloud-web

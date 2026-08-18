@@ -32,9 +32,15 @@ data:
       # - hostname: openerp.hansjlachmann.net
       #   service: http://openerp-frontend.openerp.svc.cluster.local:3000
       
-      - hostname: n8n.hansjlachmann.net                                                                              
-        service: http://traefik.kube-system.svc.cluster.local:80    
-      
+      - hostname: n8n.hansjlachmann.net
+        service: http://traefik.kube-system.svc.cluster.local:80
+
+      - hostname: verifactucloud.com
+        service: http://traefik.kube-system.svc.cluster.local:80
+
+      - hostname: www.verifactucloud.com
+        service: http://traefik.kube-system.svc.cluster.local:80
+
       - hostname: ssh.hansjlachmann.net
         service: ssh://localhost:22
 

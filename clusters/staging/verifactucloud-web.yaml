@@ -1,0 +1,24 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: verifactucloud-web
+  namespace: flux-system
+spec:
+  interval: 10m
+  retryInterval: 1m
+  timeout: 5m
+  path: ./deploy/k8s
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: verifactucloud-web
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: verifactucloud-web
+      namespace: verifactucloud
