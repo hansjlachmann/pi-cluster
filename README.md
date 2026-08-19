@@ -87,6 +87,7 @@ The app repo must provide:
        imagePullSecrets:
          - name: ghcr-pull
      ```
+   - **Alternative — create the secret directly in the cluster** instead of committing it (drop the `--dry-run` and `sops` steps, run the `kubectl create secret` straight against the cluster). The pod still references `imagePullSecrets: [name: ghcr-pull]`, but the secret is **not** in git — so the app repo needs no `.sops.yaml` and the Kustomization needs no `decryption:` block (Side B step 3). No age key to distribute, nothing to decrypt. See `verifactu`, which does it this way. Trade-off: the secret isn't reproducible from git, so recreate it if the cluster is rebuilt (same caveat as the Flux deploy key). **Whichever you choose, do not later delete a committed pull secret from git while the Kustomization has `prune: true` — that deletes the live secret and breaks image pulls; migrate with adopt-then-remove instead.**
 
 ## Side B — wiring it into the cluster (this repo), once per app
 
