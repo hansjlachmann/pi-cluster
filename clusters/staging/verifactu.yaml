@@ -17,7 +17,13 @@ spec:
     - name: infrastructure-controllers
   path: ./deploy/k8s
   prune: true
-  wait: true
+  # wait: false, NOT true — `wait: true` health-checks EVERY applied object,
+  # and kstatus cannot resolve the CNPG `Cluster` CR to Ready, so the
+  # Kustomization sat at Ready=Unknown "Running health checks" until timeout
+  # even with the API healthy. With wait:false, only the explicit healthChecks
+  # below are evaluated — the verifactu-api Deployment, which is what actually
+  # means "the service works".
+  wait: false
   sourceRef:
     kind: GitRepository
     name: verifactu
