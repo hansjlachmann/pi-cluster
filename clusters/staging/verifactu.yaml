@@ -1,0 +1,30 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: verifactu
+  namespace: flux-system
+spec:
+  interval: 10m
+  retryInterval: 1m
+  # First reconcile pulls two images (CNPG postgres + the app) over the Pi's
+  # link and runs initdb, which can exceed the default 5m. A longer timeout
+  # avoids a spurious failed status on the very first apply.
+  timeout: 10m
+  # The app ships a postgresql.cnpg.io Cluster CR; its CRDs come from the
+  # CloudNativePG operator installed by infrastructure-controllers. Wait for
+  # that Kustomization so the Cluster CR has a kind to match on first apply.
+  dependsOn:
+    - name: infrastructure-controllers
+  path: ./deploy/k8s
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: verifactu
+  # No `decryption:` block — nothing in ./deploy/k8s is SOPS-encrypted. Both
+  # secrets (verifactu-cert, ghcr-pull) are created directly in the cluster.
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: verifactu-api
+      namespace: verifactu
