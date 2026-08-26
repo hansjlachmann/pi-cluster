@@ -44,6 +44,15 @@ data:
       - hostname: api.verifactucloud.com
         service: http://traefik.kube-system.svc.cluster.local:80
 
+      # The invoicing application. NOTE this entry alone does not publish the
+      # name: it also needs a proxied CNAME to
+      # 21d3e1bf-81c0-4405-a31c-3593bb2a01ef.cfargotunnel.com on the
+      # verifactucloud.com zone. Without the DNS record the name does not
+      # resolve; without this entry it resolves and the catch-all below answers
+      # 404.
+      - hostname: facturas.verifactucloud.com
+        service: http://traefik.kube-system.svc.cluster.local:80
+
       - hostname: ssh.hansjlachmann.net
         service: ssh://localhost:22
 
