@@ -1,0 +1,20 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: verifactucloud-facturas
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: ssh://git@github.com/erpdevelopmentno/verifactucloud-facturas
+  ref:
+    branch: main
+  # The repository is PRIVATE. Create the read-only deploy key with:
+  #
+  #   flux create secret git verifactucloud-facturas \
+  #     --url=ssh://git@github.com/erpdevelopmentno/verifactucloud-facturas \
+  #     --namespace=flux-system
+  #
+  # then add the printed public key to the repository's Deploy keys, WITHOUT
+  # write access. Flux only reads.
+  secretRef:
+    name: verifactucloud-facturas
