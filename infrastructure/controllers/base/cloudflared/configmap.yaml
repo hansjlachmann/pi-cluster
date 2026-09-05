@@ -44,6 +44,13 @@ data:
       - hostname: api.verifactucloud.com
         service: http://traefik.kube-system.svc.cluster.local:80
 
+      # Staging for the same API. The bare name above is being freed for a
+      # future production deployment; this name's meaning never changes.
+      # Both currently reach the SAME verifactu-api backend — see the
+      # verifactu repo's deploy/k8s/ingress.yaml header for the four-step plan.
+      - hostname: api-staging.verifactucloud.com
+        service: http://traefik.kube-system.svc.cluster.local:80
+
       # The invoicing application. NOTE this entry alone does not publish the
       # name: it also needs a proxied CNAME to
       # 21d3e1bf-81c0-4405-a31c-3593bb2a01ef.cfargotunnel.com on the
