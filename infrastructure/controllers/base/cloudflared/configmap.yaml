@@ -60,6 +60,12 @@ data:
       - hostname: facturas.verifactucloud.com
         service: http://traefik.kube-system.svc.cluster.local:80
 
+      # Staging for the invoicing app. The bare name above is being cut over to
+      # this qualified name (Item 78): serve both, verify, then remove facturas.
+      # from here and its DNS. Both currently reach the SAME facturas backend.
+      - hostname: facturas-staging.verifactucloud.com
+        service: http://traefik.kube-system.svc.cluster.local:80
+
       - hostname: ssh.hansjlachmann.net
         service: ssh://localhost:22
 
