@@ -51,18 +51,13 @@ data:
       - hostname: api-staging.verifactucloud.com
         service: http://traefik.kube-system.svc.cluster.local:80
 
-      # The invoicing application. NOTE this entry alone does not publish the
-      # name: it also needs a proxied CNAME to
-      # 21d3e1bf-81c0-4405-a31c-3593bb2a01ef.cfargotunnel.com on the
-      # verifactucloud.com zone. Without the DNS record the name does not
-      # resolve; without this entry it resolves and the catch-all below answers
-      # 404.
-      - hostname: facturas.verifactucloud.com
-        service: http://traefik.kube-system.svc.cluster.local:80
-
-      # Staging for the invoicing app. The bare name above is being cut over to
-      # this qualified name (Item 78): serve both, verify, then remove facturas.
-      # from here and its DNS. Both currently reach the SAME facturas backend.
+      # The invoicing app, on its qualified staging name. The bare
+      # facturas.verifactucloud.com was cut over to this name and removed from
+      # the tunnel (Item 78 step 3), freeing the bare name for a future
+      # production deployment. Reversible: re-add facturas. here + its DNS to
+      # restore it. Publishing a name still needs a proxied CNAME to
+      # 21d3e1bf-81c0-4405-a31c-3593bb2a01ef.cfargotunnel.com AND a cloudflared
+      # restart — Flux applying this ConfigMap does not reload the running tunnel.
       - hostname: facturas-staging.verifactucloud.com
         service: http://traefik.kube-system.svc.cluster.local:80
 
