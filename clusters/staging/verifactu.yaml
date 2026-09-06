@@ -15,7 +15,7 @@ spec:
   # that Kustomization so the Cluster CR has a kind to match on first apply.
   dependsOn:
     - name: infrastructure-controllers
-  path: ./deploy/k8s
+  path: ./deploy/k8s/overlays/staging
   prune: true
   # wait: false, NOT true — `wait: true` health-checks EVERY applied object,
   # and kstatus cannot resolve the CNPG `Cluster` CR to Ready, so the
