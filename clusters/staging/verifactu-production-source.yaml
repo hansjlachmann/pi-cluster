@@ -1,0 +1,18 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: verifactu-production
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: ssh://git@github.com/erpdevelopmentno/verifactu
+  # 🔴 THE POINT OF THIS FILE. Same repo as `verifactu`, DIFFERENT BRANCH.
+  # Production moves only when somebody promotes a tested commit:
+  #     git push origin <sha>:production
+  # Pointing this at `main` would defeat the whole release model.
+  ref:
+    branch: production
+  # The SAME deploy key as the `verifactu` source — same repository, and a
+  # second key would be another credential to rotate for no gain.
+  secretRef:
+    name: verifactu

@@ -1,0 +1,33 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: verifactu-production
+  namespace: flux-system
+spec:
+  interval: 10m
+  retryInterval: 1m
+  # Same reasoning as verifactu.yaml: the first reconcile pulls two images and
+  # runs initdb over the Pi's link, which can exceed the default 5m.
+  timeout: 10m
+  # The overlay ships a postgresql.cnpg.io Cluster CR, so the operator's CRDs
+  # must exist before first apply.
+  dependsOn:
+    - name: infrastructure-controllers
+  path: ./deploy/k8s/overlays/production
+  prune: true
+  # wait: false, NOT true — identical reason to verifactu.yaml: kstatus cannot
+  # resolve the CNPG Cluster CR to Ready, so wait:true sits at Ready=Unknown
+  # "Running health checks" until timeout even with a healthy database. The
+  # explicit healthCheck below is what actually means "the service works".
+  wait: false
+  sourceRef:
+    kind: GitRepository
+    name: verifactu-production      # branch: production — NOT the `verifactu` source
+  # No `decryption:` block — nothing in deploy/k8s is SOPS-encrypted. All three
+  # secrets (verifactu-db-backup, verifactu-cert, ghcr-pull) are created directly
+  # in the cluster, out of band.
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: verifactu-api
+      namespace: verifactu-production
