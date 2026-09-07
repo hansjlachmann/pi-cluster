@@ -1,0 +1,39 @@
+# Production facturas. Side B; side A is
+# verifactucloud-facturas/deploy/flux/kustomization-production.yaml and the two
+# must not drift.
+#
+# 🔴 It will report NOT READY until the facturas-verifactu secret exists in
+# verifactucloud-facturas-production — the production partner key is minted in
+# the production verifactu database and does not exist yet. That is deliberate:
+# the database and its backups come up now so they can be verified before the
+# first real invoice, and the application cannot start, so nothing can file.
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: verifactucloud-facturas-production
+  namespace: flux-system
+spec:
+  interval: 10m
+  retryInterval: 1m
+  timeout: 5m
+  # 🔴 ONE OVERLAY, not the whole directory, and not staging's — two
+  # Kustomizations on one overlay would fight over the same objects.
+  path: ./deploy/k8s/overlays/production
+  prune: true
+  # ⚠️ wait: false — this directory contains a CloudNativePG Cluster and kstatus
+  # cannot decide when one is ready, so wait:true sits until the timeout and
+  # then reports failure on a healthy database.
+  wait: false
+  # The same GitRepository as staging. One source, many instances.
+  sourceRef:
+    kind: GitRepository
+    name: verifactucloud-facturas
+  # ⚠️ No decryption block. Nothing in that repo's deploy/k8s is SOPS-encrypted,
+  # because no Secret is committed there at all — the partner credential and the
+  # GHCR pull credential are created directly in the cluster, and that repo's CI
+  # fails if a Secret ever appears in the reconciled set.
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: facturas
+      namespace: verifactucloud-facturas-production
