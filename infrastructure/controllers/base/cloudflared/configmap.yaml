@@ -61,6 +61,11 @@ data:
       - hostname: facturas-staging.verifactucloud.com
         service: http://traefik.kube-system.svc.cluster.local:80
 
+      # The invoicing app, production. The bare name was freed by item 78's cutover
+      # and is claimed by the Ingress in verifactucloud-facturas-production.
+      - hostname: facturas.verifactucloud.com
+        service: http://traefik.kube-system.svc.cluster.local:80
+
       - hostname: ssh.hansjlachmann.net
         service: ssh://localhost:22
 
