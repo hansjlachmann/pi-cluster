@@ -69,5 +69,18 @@ data:
       - hostname: ssh.hansjlachmann.net
         service: ssh://localhost:22
 
+      # Faculty Capacity: read-only MCP endpoint, queried by Claude as a custom
+      # connector. Straight to the Service — it needs no Ingress, and TLS
+      # terminates at the Cloudflare edge.
+      #
+      # This endpoint is unauthenticated by design (Claude custom connectors do
+      # not require OAuth) and exposes only synthetic demonstration data. Do not
+      # put a Cloudflare Access application in front of it: Access breaks the
+      # connector. Bot Fight Mode and the "Block AI bots" managed rule must also
+      # not apply to this hostname, because Claude connects from Anthropic's
+      # servers rather than a browser.
+      - hostname: mcp.facultycapacity.org
+        service: http://mcp.faculty-capacity.svc.cluster.local:8081
+
     # Default behavior
       - service: http_status:404
