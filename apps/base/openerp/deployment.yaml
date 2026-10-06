@@ -56,7 +56,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ghcr.io/hansjlachmann/openerp/backend:0.1.74
+          image: ghcr.io/hansjlachmann/openerp/backend:0.1.76
           ports:
             - containerPort: 8080
           env:
