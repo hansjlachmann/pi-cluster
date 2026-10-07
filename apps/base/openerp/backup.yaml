@@ -1,0 +1,73 @@
+# Nightly pg_dump of the OpenERP database into its own volume, keeping 14 days.
+# The volume is local-path on the same node as the database: it protects against mistakes
+# (deleted data, a bad migration), not against losing the node's disk — copy the dumps off the
+# cluster for that.
+#
+# Restore (replaces the data). Start a shell pod with the backup volume, stop the backend,
+# restore, start the backend again, remove the shell pod:
+#   kubectl -n openerp run backup-shell --image=postgres:16 --restart=Never --overrides='{"spec":{"containers":[{"name":"backup-shell","image":"postgres:16","command":["sleep","3600"],"volumeMounts":[{"name":"b","mountPath":"/backup"}]}],"volumes":[{"name":"b","persistentVolumeClaim":{"claimName":"openerp-backup-pvc"}}]}}'
+#   kubectl -n openerp exec backup-shell -- ls -lh /backup
+#   kubectl -n openerp scale deploy/openerp-backend --replicas=0
+#   kubectl -n openerp exec -it backup-shell -- pg_restore -h openerp-postgres -U openerp -d openerp --clean --if-exists --no-owner /backup/<file>.dump
+#     (asks for the database password: the db-password key of openerp-secret)
+#   kubectl -n openerp scale deploy/openerp-backend --replicas=1
+#   kubectl -n openerp delete pod backup-shell
+# A one-off backup now: kubectl -n openerp create job --from=cronjob/openerp-backup openerp-backup-manual
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openerp-backup-pvc
+  namespace: openerp
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: openerp-backup
+  namespace: openerp
+spec:
+  schedule: "15 2 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: pg-dump
+              image: postgres:16
+              env:
+                - name: PGPASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: openerp-secret
+                      key: db-password
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -eu
+                  file="/backup/openerp-auto-$(date +%Y%m%d-%H%M).dump"
+                  pg_dump -h openerp-postgres -U openerp -d openerp -Fc -f "$file.partial"
+                  test -s "$file.partial"
+                  mv "$file.partial" "$file"
+                  echo "backup written: $file ($(du -h "$file" | cut -f1))"
+                  find /backup -maxdepth 1 -name 'openerp-auto-*.dump' -mtime +14 -print -delete
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+              securityContext:
+                allowPrivilegeEscalation: false
+          volumes:
+            - name: backup
+              persistentVolumeClaim:
+                claimName: openerp-backup-pvc
