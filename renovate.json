@@ -7,6 +7,13 @@
   },
   "packageRules": [
     {
+      "description": "OpenERP Postgres: no major upgrades. A Postgres 16 data directory does not start on 17 without pg_upgrade (dump/restore), so a major bump would stop the demo.",
+      "matchFileNames": ["apps/base/openerp/**"],
+      "matchPackageNames": ["postgres"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
       "description": "HELD at the chart carrying CNPG operator 1.30. barmanObjectStore is removed in operator 1.31 and WAL archiving for verifactu and verifactucloud-facturas would stop SILENTLY. Re-enable only after migrating both databases to the Barman Cloud Plugin.",
       "matchPackageNames": ["cloudnative-pg"],
       "enabled": false

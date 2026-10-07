@@ -5,6 +5,10 @@ metadata:
   namespace: openerp
 spec:
   replicas: 1
+  # Stop the old pod before starting the new one: two Postgres servers on the same data
+  # directory (RollingUpdate) can corrupt the database
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: openerp-postgres
@@ -77,6 +81,14 @@ spec:
               value: "openerp"
             - name: COMPANY_NAME
               value: "cronus"
+            # Signs the session cookies; without it every restart logs all users out.
+            # optional: the pod also starts before the key is added to openerp-secret
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: openerp-secret
+                  key: jwt-secret
+                  optional: true
           securityContext:
             allowPrivilegeEscalation: false
 ---
