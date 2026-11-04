@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goeasyerp-web
+  namespace: goeasyerp-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: goeasyerp-web
+  template:
+    metadata:
+      labels:
+        app: goeasyerp-web
+    spec:
+      containers:
+        - name: web
+          # Public GHCR package, multi-arch. CI only publishes `latest` (main) and
+          # semver tags on v* tags. Pin a version tag once the repo cuts one;
+          # until then roll out a new build with:
+          #   kubectl -n goeasyerp-web rollout restart deploy/goeasyerp-web
+          image: ghcr.io/hansjlachmann/goeasyerp.com:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop: ["ALL"]

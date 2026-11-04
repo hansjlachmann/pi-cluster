@@ -66,6 +66,12 @@ data:
       - hostname: facturas.verifactucloud.com
         service: http://traefik.kube-system.svc.cluster.local:80
 
+      - hostname: goeasyerp.com
+        service: http://traefik.kube-system.svc.cluster.local:80
+
+      - hostname: www.goeasyerp.com
+        service: http://traefik.kube-system.svc.cluster.local:80
+
       - hostname: ssh.hansjlachmann.net
         service: ssh://localhost:22
 

@@ -1,0 +1,32 @@
+# No tls: block and no cert-manager annotation on purpose: Cloudflare terminates
+# TLS at its edge and the tunnel talks plain HTTP to traefik (same as verifactucloud.com).
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: goeasyerp-web
+  namespace: goeasyerp-web
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: goeasyerp.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: goeasyerp-web
+                port:
+                  number: 80
+    - host: www.goeasyerp.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: goeasyerp-web
+                port:
+                  number: 80
