@@ -15,12 +15,9 @@ spec:
     spec:
       containers:
         - name: web
-          # Public GHCR package, multi-arch. CI only publishes `latest` (main) and
-          # semver tags on v* tags. Pin a version tag once the repo cuts one;
-          # until then roll out a new build with:
-          #   kubectl -n goeasyerp-web rollout restart deploy/goeasyerp-web
-          image: ghcr.io/hansjlachmann/goeasyerp.com:latest
-          imagePullPolicy: Always
+          # Public GHCR package, multi-arch. Pinned to a release tag; Renovate opens
+          # (and auto-merges) the bump PR for each new v* tag of the goeasyerp.com repo.
+          image: ghcr.io/hansjlachmann/goeasyerp.com:1.0.0
           ports:
             - containerPort: 8080
           readinessProbe:
