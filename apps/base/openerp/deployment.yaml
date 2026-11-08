@@ -60,7 +60,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ghcr.io/hansjlachmann/openerp/backend:0.1.136
+          image: ghcr.io/hansjlachmann/goeasyerp/backend:0.1.141
           ports:
             - containerPort: 8080
           env:
@@ -109,7 +109,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ghcr.io/hansjlachmann/openerp/frontend:0.1.136
+          image: ghcr.io/hansjlachmann/goeasyerp/frontend:0.1.141
           ports:
             - containerPort: 3000
           env:
