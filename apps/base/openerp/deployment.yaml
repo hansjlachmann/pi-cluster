@@ -60,7 +60,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ghcr.io/hansjlachmann/goeasyerp/backend:0.1.143
+          image: ghcr.io/hansjlachmann/goeasyerp/backend:0.1.144
           ports:
             - containerPort: 8080
           env:
