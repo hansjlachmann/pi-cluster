@@ -22,7 +22,8 @@
     {
       "description": "Auto-merge goeasyerp.com landing page releases",
       "matchPackageNames": ["ghcr.io/hansjlachmann/goeasyerp.com"],
-      "automerge": true
+      "automerge": true,
+      "ignoreTests": true
     }
   ]
 }
