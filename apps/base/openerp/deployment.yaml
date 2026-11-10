@@ -109,7 +109,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ghcr.io/hansjlachmann/goeasyerp/frontend:0.1.149
+          image: ghcr.io/hansjlachmann/goeasyerp/frontend:0.1.151
           ports:
             - containerPort: 3000
           env:
