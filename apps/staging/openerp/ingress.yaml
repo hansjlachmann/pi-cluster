@@ -8,6 +8,7 @@ metadata:
   namespace: openerp
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.middlewares: openerp-noindex@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:
@@ -28,6 +29,18 @@ spec:
                 name: openerp-backend
                 port:
                   number: 8080
+---
+# Keep the demo out of search results: it is wiped and rebuilt regularly and its sign-in is public.
+# A response header (not robots.txt) so crawlers can still fetch the pages and see the noindex.
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: noindex
+  namespace: openerp
+spec:
+  headers:
+    customResponseHeaders:
+      X-Robots-Tag: "noindex, nofollow"
 ---
 # Old name: redirect (temporary, 302) to the new one, keeping path and query.
 apiVersion: traefik.io/v1alpha1
