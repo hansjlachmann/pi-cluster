@@ -1,5 +1,20 @@
 # No tls: block and no cert-manager annotation on purpose: Cloudflare terminates
 # TLS at its edge and the tunnel talks plain HTTP to traefik (same as verifactucloud.com).
+#
+# goeasyerp.org is the canonical site. The old goeasyerp.com names are routed to the
+# same Service but get a permanent redirect to .org (path and query preserved).
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-org
+  namespace: goeasyerp-web
+spec:
+  redirectRegex:
+    regex: '^https?://(?:www\.)?goeasyerp\.com/?(.*)'
+    replacement: 'https://goeasyerp.org/${1}'
+    permanent: true
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -7,6 +22,38 @@ metadata:
   namespace: goeasyerp-web
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: goeasyerp.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: goeasyerp-web
+                port:
+                  number: 80
+    - host: www.goeasyerp.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: goeasyerp-web
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: goeasyerp-web-legacy-com
+  namespace: goeasyerp-web
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.middlewares: goeasyerp-web-redirect-to-org@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:
@@ -21,26 +68,6 @@ spec:
                 port:
                   number: 80
     - host: www.goeasyerp.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: goeasyerp-web
-                port:
-                  number: 80
-    - host: goeasyerp.org
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: goeasyerp-web
-                port:
-                  number: 80
-    - host: www.goeasyerp.org
       http:
         paths:
           - path: /
