@@ -27,6 +27,10 @@ data:
       - hostname: audiobookshelf.hansjlachmann.net
         service: http://audiobookshelf.audiobookshelf.svc.cluster.local:3005
 
+      - hostname: demo.goeasyerp.org
+        service: http://traefik.kube-system.svc.cluster.local:80
+
+      # Old demo name, kept only so it can redirect to demo.goeasyerp.org.
       - hostname: openerp.hansjlachmann.net
         service: http://traefik.kube-system.svc.cluster.local:80
       # - hostname: openerp.hansjlachmann.net

@@ -116,7 +116,7 @@ spec:
             - name: PORT
               value: "3000"
             - name: ORIGIN
-              value: "https://openerp.hansjlachmann.net"
+              value: "https://demo.goeasyerp.org"
             - name: BACKEND_URL
               value: "http://openerp-backend:8080"
           securityContext:

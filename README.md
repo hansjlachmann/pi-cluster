@@ -8,7 +8,7 @@ Applications hosted:
 - Mealie https://mealie.hansjlachmann.net/
 - Seafile personal file storage (replaces Google Drive, Dropbox etc.) - this is a very good alternative if you have a Linux workstation because Google Drive does not offer Linux sync clients. See official seafile page for details: https://www.seafile.com/en/download/
 - Audiobookshelf  https://audiobookshelf.hansjlachmann.net/
-- OpenERP  https://openerp.hansjlachmann.net/
+- GoEasyERP demo  https://demo.goeasyerp.org/
 - n8n  https://n8n.hansjlachmann.net/
 - verifactucloud.com landing page  https://verifactucloud.com/  (deployed from a separate private repo — see "Deploying a new application" below)
 - Cloudflare tunnel
