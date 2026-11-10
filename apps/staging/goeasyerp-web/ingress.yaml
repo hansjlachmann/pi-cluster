@@ -30,3 +30,23 @@ spec:
                 name: goeasyerp-web
                 port:
                   number: 80
+    - host: goeasyerp.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: goeasyerp-web
+                port:
+                  number: 80
+    - host: www.goeasyerp.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: goeasyerp-web
+                port:
+                  number: 80

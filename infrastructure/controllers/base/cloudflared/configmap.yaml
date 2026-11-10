@@ -72,6 +72,12 @@ data:
       - hostname: www.goeasyerp.com
         service: http://traefik.kube-system.svc.cluster.local:80
 
+      - hostname: goeasyerp.org
+        service: http://traefik.kube-system.svc.cluster.local:80
+
+      - hostname: www.goeasyerp.org
+        service: http://traefik.kube-system.svc.cluster.local:80
+
       - hostname: ssh.hansjlachmann.net
         service: ssh://localhost:22
 
