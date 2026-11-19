@@ -20,6 +20,11 @@
       "enabled": false
     },
     {
+      "description": "The ERP backend, frontend and app builder must always run the same version (a builder of another version refuses build requests), so Renovate updates them in ONE PR.",
+      "matchPackageNames": ["ghcr.io/hansjlachmann/goeasyerp/*"],
+      "groupName": "goeasyerp ERP images"
+    },
+    {
       "description": "Auto-merge goeasyerp.com landing page releases",
       "matchPackageNames": ["ghcr.io/hansjlachmann/goeasyerp.com"],
       "automerge": true,

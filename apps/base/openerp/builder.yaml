@@ -1,0 +1,70 @@
+# App builder: compiles the GoEasyERP server together with installed extension apps into a
+# volume shared with the backend; the backend switches to the result by itself.
+# Keep this image tag EQUAL to the backend's: a builder of another version refuses requests.
+# Renovate updates backend, frontend and builder together (see renovate.json).
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openerp-app-builds-pvc
+  namespace: openerp
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openerp-builder
+  namespace: openerp
+spec:
+  replicas: 1
+  # one builder at a time on the volume
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: openerp-builder
+  template:
+    metadata:
+      labels:
+        app: openerp-builder
+    spec:
+      containers:
+        - name: builder
+          # keep this tag equal to the backend's
+          image: ghcr.io/hansjlachmann/goeasyerp/builder:0.1.163
+          env:
+            - name: DB_HOST
+              value: "openerp-postgres"
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              value: "openerp"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: openerp-secret
+                  key: db-password
+            - name: DB_NAME
+              value: "openerp"
+            - name: APP_BUILDS_DIR
+              value: "/builds"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              # a Go build needs 1-2 GB while it runs; idle it uses almost nothing
+              memory: "2560Mi"
+          volumeMounts:
+            - name: app-builds
+              mountPath: /builds
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: app-builds
+          persistentVolumeClaim:
+            claimName: openerp-app-builds-pvc

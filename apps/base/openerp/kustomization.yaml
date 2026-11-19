@@ -6,3 +6,4 @@ resources:
   - service.yaml
   - storage.yaml
   - backup.yaml
+  - builder.yaml

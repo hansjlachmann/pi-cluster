@@ -81,6 +81,9 @@ spec:
               value: "openerp"
             - name: COMPANY_NAME
               value: "cronus"
+            # Where the builder puts compiled servers; the backend switches to them by itself.
+            - name: APP_BUILDS_DIR
+              value: "/builds"
             # Signs the session cookies; without it every restart logs all users out.
             # optional: the pod also starts before the key is added to openerp-secret
             - name: JWT_SECRET
@@ -91,6 +94,14 @@ spec:
                   optional: true
           securityContext:
             allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: app-builds
+              mountPath: /builds
+              readOnly: true
+      volumes:
+        - name: app-builds
+          persistentVolumeClaim:
+            claimName: openerp-app-builds-pvc
 ---
 apiVersion: apps/v1
 kind: Deployment
