@@ -52,6 +52,13 @@ spec:
               value: "openerp"
             - name: APP_BUILDS_DIR
               value: "/builds"
+            # Keep the Go build's peak memory under the 6Gi limit: collect garbage
+            # more often, build 2 packages at a time, and compile the (huge)
+            # generated tables package single-threaded.
+            - name: GOGC
+              value: "25"
+            - name: GOFLAGS
+              value: "-p=2 -gcflags=github.com/hansjlachmann/goeasyerp/backend/generated/tables=-c=1"
           resources:
             requests:
               memory: "256Mi"
