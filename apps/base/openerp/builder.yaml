@@ -57,8 +57,9 @@ spec:
               memory: "256Mi"
               cpu: "100m"
             limits:
-              # a Go build needs 1-2 GB while it runs; idle it uses almost nothing
-              memory: "2560Mi"
+              # a Go build peaks well above 2.5 GB on the Pi (OOM-killed at 2560Mi);
+              # idle it uses almost nothing
+              memory: "6Gi"
           volumeMounts:
             - name: app-builds
               mountPath: /builds
