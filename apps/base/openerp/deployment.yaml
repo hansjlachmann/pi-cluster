@@ -60,7 +60,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ghcr.io/hansjlachmann/goeasyerp/backend:0.1.168
+          image: ghcr.io/hansjlachmann/goeasyerp/backend:0.1.169
           ports:
             - containerPort: 8080
           env:
@@ -120,7 +120,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ghcr.io/hansjlachmann/goeasyerp/frontend:0.1.168
+          image: ghcr.io/hansjlachmann/goeasyerp/frontend:0.1.169
           ports:
             - containerPort: 3000
           env:
