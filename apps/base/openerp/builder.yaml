@@ -35,7 +35,7 @@ spec:
       containers:
         - name: builder
           # keep this tag equal to the backend's
-          image: ghcr.io/hansjlachmann/goeasyerp/builder:0.1.168
+          image: ghcr.io/hansjlachmann/goeasyerp/builder:0.1.169
           env:
             - name: DB_HOST
               value: "openerp-postgres"
