@@ -8,7 +8,7 @@
 #   kubectl -n openerp run backup-shell --image=postgres:16 --restart=Never --overrides='{"spec":{"containers":[{"name":"backup-shell","image":"postgres:16","command":["sleep","3600"],"volumeMounts":[{"name":"b","mountPath":"/backup"}]}],"volumes":[{"name":"b","persistentVolumeClaim":{"claimName":"openerp-backup-pvc"}}]}}'
 #   kubectl -n openerp exec backup-shell -- ls -lh /backup
 #   kubectl -n openerp scale deploy/openerp-backend --replicas=0
-#   kubectl -n openerp exec -it backup-shell -- pg_restore -h openerp-postgres -U openerp -d openerp --clean --if-exists --no-owner /backup/<file>.dump
+#   kubectl -n openerp exec -it backup-shell -- pg_restore -h openerp-postgres -U goeasyerp -d openerp --clean --if-exists --no-owner /backup/<file>.dump
 #     (asks for the database password: the db-password key of openerp-secret)
 #   kubectl -n openerp scale deploy/openerp-backend --replicas=1
 #   kubectl -n openerp delete pod backup-shell
@@ -57,7 +57,7 @@ spec:
                 - |
                   set -eu
                   file="/backup/openerp-auto-$(date +%Y%m%d-%H%M).dump"
-                  pg_dump -h openerp-postgres -U openerp -d openerp -Fc -f "$file.partial"
+                  pg_dump -h openerp-postgres -U goeasyerp -d openerp -Fc -f "$file.partial"
                   test -s "$file.partial"
                   mv "$file.partial" "$file"
                   echo "backup written: $file ($(du -h "$file" | cut -f1))"
